@@ -81,10 +81,18 @@ const workItems = [
   { title: "PwC", blurb: "A short note about this role will live here." },
   { title: "Small tools and experiments", blurb: "A short note about this work will live here." },
 ];
+const enjoyingItems = [
+  { title: "Vibe coding", href: "" },
+  { title: "Pickleball", href: "" },
+  { title: "Long runs without headphones", href: "" },
+  ...Array.from({ length: 7 }, () => ({ title: "Open slot", href: "" })),
+];
+const placeItems = cardContents.Places.items.map((title) => ({ title, photos: ["", ""] }));
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
   const [closing, setClosing] = useState(false);
   const [selectedBook, setSelectedBook] = useState<(typeof bookItems)[number] & { x: number; y: number; closing?: boolean } | null>(null);
   const [selectedWork, setSelectedWork] = useState<(typeof workItems)[number] & { x: number; y: number; closing?: boolean } | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<(typeof placeItems)[number] & { x: number; y: number; closing?: boolean } | null>(null);
   const closeWithRipple = () => {
     if (closing) return;
     setClosing(true);
@@ -111,6 +119,17 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
     if (!selectedWork || selectedWork.closing) return;
     setSelectedWork({ ...selectedWork, closing: true });
     window.setTimeout(() => setSelectedWork(null), 900);
+  };
+  const openPlace = (place: (typeof placeItems)[number], event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    const card = event.currentTarget.closest(".card-reveal")?.getBoundingClientRect();
+    setSelectedPlace({ ...place, x: card ? event.clientX - card.left : 300, y: card ? event.clientY - card.top : 250 });
+  };
+  const closePlace = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    if (!selectedPlace || selectedPlace.closing) return;
+    setSelectedPlace({ ...selectedPlace, closing: true });
+    window.setTimeout(() => setSelectedPlace(null), 900);
   };
   return <div className={`card-reveal reveal-${opened.name.toLowerCase()}${closing ? " is-closing" : ""}`} onClick={(event) => { event.stopPropagation(); closeWithRipple(); }} style={{ "--ripple-x": `${opened.x}px`, "--ripple-y": `${opened.y}px` } as React.CSSProperties}>
     <div className="ripple-grid" aria-hidden="true" />
@@ -151,6 +170,28 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
             </button>
           ))}
         </div>
+      ) : opened.name === "Enjoying" ? (
+        <div className="enjoying-grid" aria-label="Things worth sharing">
+          {[enjoyingItems.slice(0, 5), enjoyingItems.slice(5)].map((column, columnIndex) => (
+            <div className="enjoying-column" key={columnIndex}>
+              {column.map((item, index) => {
+                const number = columnIndex * 5 + index + 1;
+                const isOpen = item.title === "Open slot";
+                return <a className={isOpen ? "is-open" : ""} href={item.href || "#"} target={item.href ? "_blank" : undefined} rel={item.href ? "noreferrer" : undefined} onClick={(event) => { event.stopPropagation(); if (!item.href) event.preventDefault(); }} key={number}>
+                  <span>{String(number).padStart(2, "0")}</span><b>{item.title}</b><i>{isOpen ? "" : "↗"}</i>
+                </a>;
+              })}
+            </div>
+          ))}
+        </div>
+      ) : opened.name === "Places" ? (
+        <div className="reveal-items place-items">
+          {placeItems.map((item, index) => (
+            <button onClick={(event) => openPlace(item, event)} key={item.title}>
+              <span>0{index + 1}</span><b>{item.title}</b><i>↗</i>
+            </button>
+          ))}
+        </div>
       ) : (
         <div className="reveal-items">{cardContents[opened.name].items.map((item, index) => <a href="#" onClick={(event) => event.preventDefault()} key={item}><span>0{index + 1}</span><b>{item}</b><i>↗</i></a>)}</div>
       )}
@@ -165,6 +206,14 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
       <div className={`book-detail work-detail${selectedWork.closing ? " is-closing" : ""}`} onClick={closeWork} style={{ "--book-x": `${selectedWork.x}px`, "--book-y": `${selectedWork.y}px` } as React.CSSProperties}>
         <div className="book-detail-meta"><b>{selectedWork.title}</b></div>
         <p>{selectedWork.blurb}</p>
+      </div>
+    )}
+    {selectedPlace && (
+      <div className={`book-detail place-detail${selectedPlace.closing ? " is-closing" : ""}`} onClick={closePlace} style={{ "--book-x": `${selectedPlace.x}px`, "--book-y": `${selectedPlace.y}px` } as React.CSSProperties}>
+        <div className="book-detail-meta"><b>{selectedPlace.title}</b></div>
+        <div className="place-photo-grid">
+          {selectedPlace.photos.map((photo, index) => photo ? <img src={photo} alt={`${selectedPlace.title} ${index + 1}`} key={index} /> : <div className="photo-slot" key={index}><span>Photo {String(index + 1).padStart(2, "0")}</span></div>)}
+        </div>
       </div>
     )}
   </div>;
