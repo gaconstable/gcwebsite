@@ -230,7 +230,7 @@ export default function Home() {
     ["Working", cardContents.Work.items[0]],
     ["Listening", listeningArtist],
     ["Reading", bookItems.filter((book) => book.status).map((book) => book.title).join(" + ")],
-    ["Thinking about", thinkingItems.join(", ")],
+    ["Enjoying", thinkingItems.join(", ")],
   ];
   const openCard = (name: string, tone: string, event?: React.MouseEvent<HTMLElement>) => {
     const bounds = event?.currentTarget.getBoundingClientRect();
