@@ -35,7 +35,7 @@ const library = [
   },
 ];
 const cardContents: Record<string, { kicker: string; items: string[] }> = {
-  Work: { kicker: "Selected work", items: ["FinDash.ai", "PwC", "Small tools and experiments"] },
+  Work: { kicker: "Selected work", items: ["FinDash.ai", "PwC", "Other projects"] },
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
   Enjoying: { kicker: "Lately", items: ["AI Infrastructure", "Pickleball", "Meal Prepping", "Vibe Coding", "Planning the weekend"] },
@@ -77,9 +77,9 @@ const bookItems = [
   { title: "The Defining Decade", author: "Meg Jay", blurb: "Ordinary choices in the twenties quietly shape work, relationships, and identity. Direction comes less from having everything figured out than from making commitments and allowing them to matter." },
 ];
 const workItems = [
-  { title: "FinDash.ai", blurb: "Working across the product to make it clearer and easier to use, with a particular focus on the user experience. I also use modern coding tools to improve and update the site." },
+  { title: "FinDash.ai", blurb: "Helping shape FinDash.ai across product and web, with a focus on improving the user experience and using coding tools to ship updates quickly." },
   { title: "PwC", blurb: "Interned in PwC’s Financial Crimes Unit within Risk Consulting, supporting risk assessments across KYC, AML, fraud, sanctions, and related areas for large public companies." },
-  { title: "Small tools and experiments", blurb: "A short note about this work will live here." },
+  { title: "Other projects", blurb: "A short note about this work will live here." },
 ];
 const enjoyingItems = cardContents.Enjoying.items.map((title, index) => ({ title, href: "", number: index + 1 }));
 const placeItems = [
