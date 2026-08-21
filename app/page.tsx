@@ -82,7 +82,19 @@ const workItems = [
   { title: "Small tools and experiments", blurb: "A short note about this work will live here." },
 ];
 const enjoyingItems = cardContents.Enjoying.items.map((title, index) => ({ title, href: "", number: index + 1 }));
-const placeItems = cardContents.Places.items.map((title) => ({ title, photos: ["", "", "", "", "", ""] }));
+const placeItems = [
+  {
+    title: "Oʻahu",
+    photos: [
+      "/photos/oahu/coast.jpeg",
+      "/photos/oahu/lighthouse.jpeg",
+      "/photos/oahu/diamond-head.jpeg",
+      "/photos/oahu/trail.jpeg",
+    ],
+  },
+  { title: "Dolomites", photos: ["", "", "", "", "", ""] },
+  { title: "Lucerne", photos: ["", "", "", "", "", ""] },
+];
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
   const [closing, setClosing] = useState(false);
   const [selectedBook, setSelectedBook] = useState<(typeof bookItems)[number] & { x: number; y: number; closing?: boolean } | null>(null);
