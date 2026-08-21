@@ -260,7 +260,12 @@ export default function Home() {
   ];
   const openCard = (name: string, tone: string, event?: React.MouseEvent<HTMLElement>) => {
     const bounds = event?.currentTarget.getBoundingClientRect();
-    setOpened({ name, tone, x: bounds ? event.clientX - bounds.left : 300, y: bounds ? event.clientY - bounds.top : 250 });
+    setOpened({
+      name,
+      tone,
+      x: bounds && event ? event.clientX - bounds.left : 300,
+      y: bounds && event ? event.clientY - bounds.top : 250,
+    });
   };
   return (
     <main>
