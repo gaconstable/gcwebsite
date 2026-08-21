@@ -93,7 +93,13 @@ const placeItems = [
     ],
   },
   { title: "Dolomites", photos: ["", "", "", "", "", ""] },
-  { title: "Lucerne", photos: ["", "", "", "", "", ""] },
+  {
+    title: "Lucerne",
+    photos: [
+      "/photos/lucerne/alpine-view.jpeg",
+      "/photos/lucerne/lake-sailboats.jpeg",
+    ],
+  },
 ];
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
   const [closing, setClosing] = useState(false);
