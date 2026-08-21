@@ -92,7 +92,15 @@ const placeItems = [
       "/photos/oahu/trail.jpeg",
     ],
   },
-  { title: "Dolomites", photos: ["", "", "", "", "", ""] },
+  {
+    title: "Dolomites",
+    photos: [
+      "/photos/dolomites/ridgeline.jpeg",
+      "/photos/dolomites/alpine-lake.jpeg",
+      "/photos/dolomites/meadow.jpeg",
+      "/photos/dolomites/mountain-panorama.jpeg",
+    ],
+  },
   {
     title: "Lucerne",
     photos: [
