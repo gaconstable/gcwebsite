@@ -48,13 +48,13 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Places: { kicker: "A few points on the planet", items: ["New York", "Barcelona", "Dolomites", "Oʻahu"] },
 };
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
-  return <div className="card-reveal" style={{ "--ripple-x": `${opened.x}px`, "--ripple-y": `${opened.y}px` } as React.CSSProperties}>
+  return <div className="card-reveal" onClick={(event) => { event.stopPropagation(); onClose(); }} style={{ "--ripple-x": `${opened.x}px`, "--ripple-y": `${opened.y}px` } as React.CSSProperties}>
     <div className="ripple-grid" aria-hidden="true" />
     <button className="reveal-close" onClick={(event) => { event.stopPropagation(); onClose(); }} aria-label="Close card">Close ×</button>
     <div className="reveal-inner">
       <p>{cardContents[opened.name].kicker}</p>
       <h2>{opened.name}</h2>
-      <div className="reveal-items">{cardContents[opened.name].items.map((item, index) => <a href="#" onClick={(event) => { event.preventDefault(); event.stopPropagation(); }} key={item}><span>0{index + 1}</span><b>{item}</b><i>↗</i></a>)}</div>
+      <div className="reveal-items">{cardContents[opened.name].items.map((item, index) => <a href="#" onClick={(event) => event.preventDefault()} key={item}><span>0{index + 1}</span><b>{item}</b><i>↗</i></a>)}</div>
     </div>
   </div>;
 }
