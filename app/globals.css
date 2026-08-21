@@ -541,15 +541,24 @@ footer a { display: none; }
   gap: 38px;
 }
 .enjoying-column { display:grid;grid-auto-rows:58px;align-content:start }
-.enjoying-column a {
+.enjoying-column a,
+.enjoying-column button {
   min-height: 58px;
   display: grid;
   grid-template-columns: 38px 1fr auto;
   align-items: center;
   border-top: 1px solid currentColor;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  padding: 0;
+  background: transparent;
   color: inherit;
+  text-align: left;
+  cursor: pointer;
 }
-.enjoying-column a:last-child { border-bottom:1px solid currentColor }
+.enjoying-column a:last-child,
+.enjoying-column button:last-child { border-bottom:1px solid currentColor }
 .enjoying-column span { font-size:9px;opacity:.52 }
 .enjoying-column b { font:400 15px "Helvetica Neue",Arial;letter-spacing:-.015em }
 .enjoying-column i { font:10px "Helvetica Neue",Arial;font-style:normal;opacity:.62 }
@@ -596,9 +605,16 @@ footer a { display: none; }
 .place-photo-grid {
   width: min(760px, 82%);
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 14px;
+  justify-content: center;
+  align-content: center;
 }
+.place-photo-grid[data-count="1"] { width:min(400px,62%);grid-template-columns:1fr }
+.place-photo-grid[data-count="2"] { grid-template-columns:repeat(2,1fr) }
+.place-photo-grid[data-count="3"] { width:min(900px,90%);grid-template-columns:repeat(3,1fr) }
+.place-photo-grid[data-count="4"] { grid-template-columns:repeat(2,1fr) }
+.place-photo-grid[data-count="5"],
+.place-photo-grid[data-count="6"] { width:min(900px,90%);grid-template-columns:repeat(3,1fr) }
 .place-photo-grid img,
 .photo-slot {
   width: 100%;
@@ -715,14 +731,17 @@ footer a { display: none; }
   .book-spine b { font-size:10px }
   .book-spine span { font-size:8px }
   .enjoying-grid { width:100%;gap:14px }
-  .enjoying-column a { min-height:48px;grid-template-columns:26px 1fr auto }
+  .enjoying-column a,
+  .enjoying-column button { min-height:48px;grid-template-columns:26px 1fr auto }
   .enjoying-column b { font-size:11px }
   .reveal-books .reveal-inner>p { margin-bottom:18px }
   .reveal-books .reveal-inner h2 { margin-bottom:30px }
   .book-detail { padding:22px }
   .book-detail-meta { top:22px;left:22px }
   .book-detail>p { width:90%;font-size:25px }
-  .place-photo-grid { width:100%;grid-template-columns:1fr;gap:10px }
+  .place-photo-grid,
+  .place-photo-grid[data-count] { width:100%;grid-template-columns:repeat(2,1fr);gap:10px }
+  .place-photo-grid[data-count="1"] { width:min(360px,100%);grid-template-columns:1fr }
   .place-photo-grid img,
   .photo-slot { aspect-ratio:16 / 7 }
 }
