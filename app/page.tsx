@@ -22,7 +22,7 @@ const library = [
     type: "Books",
     title: "My favorite reads",
     detail: "A living shelf.",
-    mark: "Aa",
+    mark: "books",
     tone: "books",
   },
   {
@@ -273,7 +273,16 @@ export default function Home() {
                 <span>{item.type}</span>
                 <span>{item.number}</span>
               </div>
-              <div className="panel-mark">{item.mark}</div>
+              <div className={`panel-mark${item.type === "Books" ? " book-stack-mark" : ""}`}>
+                {item.type === "Books" ? (
+                  <svg viewBox="0 0 64 64" role="img" aria-label="Stacked books">
+                    <path d="M10 12h40a4 4 0 0 1 4 4v10H14a4 4 0 0 1-4-4z" />
+                    <path d="M54 26H16a5 5 0 0 0 0 10h38z" />
+                    <path d="M14 36h36a4 4 0 0 1 4 4v12H10V40a4 4 0 0 1 4-4z" />
+                    <path d="M20 43h24" />
+                  </svg>
+                ) : item.mark}
+              </div>
               <div className="panel-copy">
                 <h3>{item.title}</h3>
                 <p>{item.detail}</p>
