@@ -10,7 +10,7 @@ const library = [
   {
     number: "01",
     type: "Work",
-    title: "What I have been a part of and built",
+    title: "Where I've worked and my goals",
     detail: "Selected work and things in progress.",
     mark: "◇\n◇",
     tone: "work",
@@ -26,7 +26,7 @@ const library = [
   {
     number: "03",
     type: "Books",
-    title: "Some of my favorites",
+    title: "My favorite reads",
     detail: "A living shelf.",
     mark: "Aa",
     tone: "books",
@@ -34,7 +34,7 @@ const library = [
   {
     number: "04",
     type: "Enjoying",
-    title: "Interesting and engaging finds",
+    title: "Articles, videos, podcasts, projects worth sharing",
     detail: "Things I’m into right now.",
     mark: "ϟ",
     tone: "enjoying",
@@ -47,14 +47,82 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Enjoying: { kicker: "Lately", items: ["Vibe coding", "Pickleball", "Long runs without headphones"] },
   Places: { kicker: "A few points on the planet", items: ["New York", "Barcelona", "Dolomites", "Oʻahu"] },
 };
+const musicItems = [
+  {
+    type: "Album",
+    title: "Dire Straits",
+    artist: "Dire Straits · 1978",
+    href: "https://open.spotify.com/album/4dKdxly4ji1vfl7sEYuqBe",
+    image: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0205b07080bdc2dd0e2cf6f008",
+  },
+  {
+    type: "Song",
+    title: "Cleaning Windows",
+    artist: "Van Morrison",
+    href: "https://open.spotify.com/track/1Y0fLiphJPvf7Rs56aAL3O",
+    image: "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02d801a110ad2782a57af68092",
+  },
+  {
+    type: "Playlist",
+    title: "tv aux 8/7",
+    artist: "Spotify",
+    href: "https://open.spotify.com/playlist/72sroOmS1KGlkbe054hrZq",
+    image: "https://mosaic.scdn.co/300/ab67616d00001e020a49794bd0a26ed45ffa9df4ab67616d00001e02565b363923790503c0b96690ab67616d00001e02b9ab30b4236e93e1a630eef4ab67616d00001e02fe5dc4f72fc5587fe59f665b",
+  },
+];
+const bookItems = [
+  ["Steve Jobs", "Walter Isaacson"],
+  ["The Creative Act", "Rick Rubin"],
+  ["Shoe Dog", "Phil Knight"],
+  ["Zero to One", "Peter Thiel"],
+  ["Sapiens", "Yuval Noah Harari"],
+  ["Principles", "Ray Dalio"],
+  ["The Psychology of Money", "Morgan Housel"],
+  ["The Ride of a Lifetime", "Robert Iger"],
+  ["The Hard Thing About Hard Things", "Ben Horowitz"],
+  ["The Almanack of Naval Ravikant", "Eric Jorgenson"],
+];
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
-  return <div className="card-reveal" onClick={(event) => { event.stopPropagation(); onClose(); }} style={{ "--ripple-x": `${opened.x}px`, "--ripple-y": `${opened.y}px` } as React.CSSProperties}>
+  const [closing, setClosing] = useState(false);
+  const closeWithRipple = () => {
+    if (closing) return;
+    setClosing(true);
+    window.setTimeout(onClose, 650);
+  };
+  return <div className={`card-reveal reveal-${opened.name.toLowerCase()}${closing ? " is-closing" : ""}`} onClick={(event) => { event.stopPropagation(); closeWithRipple(); }} style={{ "--ripple-x": `${opened.x}px`, "--ripple-y": `${opened.y}px` } as React.CSSProperties}>
     <div className="ripple-grid" aria-hidden="true" />
-    <button className="reveal-close" onClick={(event) => { event.stopPropagation(); onClose(); }} aria-label="Close card">Close ×</button>
+    <button className="reveal-close" onClick={(event) => { event.stopPropagation(); closeWithRipple(); }} aria-label="Close card">Close ×</button>
     <div className="reveal-inner">
       <p>{cardContents[opened.name].kicker}</p>
       <h2>{opened.name}</h2>
-      <div className="reveal-items">{cardContents[opened.name].items.map((item, index) => <a href="#" onClick={(event) => event.preventDefault()} key={item}><span>0{index + 1}</span><b>{item}</b><i>↗</i></a>)}</div>
+      {opened.name === "Music" ? (
+        <div className="music-stack">
+          {musicItems.map((item) => (
+            <a href={item.href} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()} key={item.type}>
+              <img src={item.image} alt="" />
+              <span>{item.type}</span>
+              <div><b>{item.title}</b><small>{item.artist}</small></div>
+              <i>Spotify ↗</i>
+            </a>
+          ))}
+        </div>
+      ) : opened.name === "Books" ? (
+        <div className="book-stack" aria-label="Favorite books">
+          {[bookItems.slice(0, 5), bookItems.slice(5)].map((pile, pileIndex) => (
+            <div className="book-pile" key={pileIndex}>
+              {pile.map(([title, author], index) => (
+                <div className="book-spine" style={{ "--book": index } as React.CSSProperties} key={title}>
+                  <small>0{pileIndex * 5 + index + 1}</small>
+                  <b>{title}</b>
+                  <span>{author}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="reveal-items">{cardContents[opened.name].items.map((item, index) => <a href="#" onClick={(event) => event.preventDefault()} key={item}><span>0{index + 1}</span><b>{item}</b><i>↗</i></a>)}</div>
+      )}
     </div>
   </div>;
 }
@@ -89,6 +157,7 @@ export default function Home() {
       <section className="library" id="library">
         <div className="shell library-intro">
           <p className="eyebrow">The library</p>
+          <p className="library-hint">tap a card to explore</p>
         </div>
         <div className="shelf shell">
           {library.map((item, index) => (
@@ -130,7 +199,7 @@ export default function Home() {
             </div>
             <div className="panel-mark earth-mark" aria-label="Earth">◎</div>
             <div className="panel-copy">
-              <h3>Sights I want to share</h3>
+              <h3>Some great sights</h3>
             </div>
             {opened?.name === "Places" && <CardReveal opened={opened} onClose={() => setOpened(null)} />}
           </article>
