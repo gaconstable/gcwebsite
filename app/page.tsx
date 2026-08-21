@@ -10,7 +10,7 @@ const library = [
   {
     number: "01",
     type: "Work",
-    title: "Designing clear, generous systems for people and teams.",
+    title: "What I have been a part of and built",
     detail: "Selected work and things in progress.",
     mark: "◇\n◇",
     tone: "work",
@@ -18,7 +18,7 @@ const library = [
   {
     number: "02",
     type: "Music",
-    title: "Songs, playlists, and records I keep coming back to.",
+    title: "Go-tos right now",
     detail: "What I’m listening to.",
     mark: "♪",
     tone: "music",
@@ -34,7 +34,7 @@ const library = [
   {
     number: "04",
     type: "Enjoying",
-    title: "A rotating collection of current favorites.",
+    title: "Interesting and engaging finds",
     detail: "Things I’m into right now.",
     mark: "ϟ",
     tone: "enjoying",
@@ -129,7 +129,9 @@ export default function Home() {
               <span>05</span>
             </div>
             <div className="panel-mark earth-mark" aria-label="Earth">◎</div>
-            <div />
+            <div className="panel-copy">
+              <h3>Sights I want to share</h3>
+            </div>
             {opened?.name === "Places" && <CardReveal opened={opened} onClose={() => setOpened(null)} />}
           </article>
         </div>
