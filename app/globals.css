@@ -204,7 +204,7 @@ a {
   margin-bottom: 48px;
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.book-stack-mark svg {
+.book-icon-mark svg {
   display: block;
   width: clamp(110px, 15vw, 205px);
   height: auto;
