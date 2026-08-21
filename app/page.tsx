@@ -39,7 +39,7 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
   Enjoying: { kicker: "Lately", items: ["AI Infrastructure", "Pickleball", "Meal Prepping", "Vibe Coding", "Planning the weekend"] },
-  Places: { kicker: "A few points on the planet", items: ["New York", "Barcelona", "Dolomites", "Oʻahu"] },
+  Places: { kicker: "A few points on the planet", items: ["Oʻahu", "Dolomites", "Lucerne"] },
 };
 const musicItems = [
   {
@@ -82,7 +82,7 @@ const workItems = [
   { title: "Small tools and experiments", blurb: "A short note about this work will live here." },
 ];
 const enjoyingItems = cardContents.Enjoying.items.map((title, index) => ({ title, href: "", number: index + 1 }));
-const placeItems = cardContents.Places.items.map((title) => ({ title, photos: ["", ""] }));
+const placeItems = cardContents.Places.items.map((title) => ({ title, photos: ["", "", "", "", "", ""] }));
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
   const [closing, setClosing] = useState(false);
   const [selectedBook, setSelectedBook] = useState<(typeof bookItems)[number] & { x: number; y: number; closing?: boolean } | null>(null);
@@ -178,11 +178,16 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
           ))}
         </div>
       ) : opened.name === "Places" ? (
-        <div className="reveal-items place-items">
-          {placeItems.map((item, index) => (
-            <button onClick={(event) => openPlace(item, event)} key={item.title}>
-              <span>0{index + 1}</span><b>{item.title}</b><i>↗</i>
-            </button>
+        <div className="enjoying-grid place-grid" aria-label="Places">
+          {[placeItems.slice(0, 2), placeItems.slice(2)].map((column, columnIndex) => (
+            <div className="enjoying-column" key={columnIndex}>
+              {column.map((item) => {
+                const index = placeItems.indexOf(item);
+                return <button onClick={(event) => openPlace(item, event)} key={item.title}>
+                  <span>{String(index + 1).padStart(2, "0")}</span><b>{item.title}</b><i>↗</i>
+                </button>;
+              })}
+            </div>
           ))}
         </div>
       ) : (
@@ -204,7 +209,7 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
     {selectedPlace && (
       <div className={`book-detail place-detail${selectedPlace.closing ? " is-closing" : ""}`} onClick={closePlace} style={{ "--book-x": `${selectedPlace.x}px`, "--book-y": `${selectedPlace.y}px` } as React.CSSProperties}>
         <div className="book-detail-meta"><b>{selectedPlace.title}</b></div>
-        <div className="place-photo-grid">
+        <div className="place-photo-grid" data-count={selectedPlace.photos.length}>
           {selectedPlace.photos.map((photo, index) => photo ? <img src={photo} alt={`${selectedPlace.title} ${index + 1}`} key={index} /> : <div className="photo-slot" key={index}><span>Photo {String(index + 1).padStart(2, "0")}</span></div>)}
         </div>
       </div>
@@ -221,7 +226,7 @@ export default function Home() {
     setThinkingItems([...cardContents.Enjoying.items].sort(() => Math.random() - 0.5).slice(0, 3));
   }, []);
   const nowItems = [
-    ["Living", cardContents.Places.items[0]],
+    ["Living", "New York"],
     ["Working", cardContents.Work.items[0]],
     ["Listening", listeningArtist],
     ["Reading", bookItems.filter((book) => book.status).map((book) => book.title).join(" + ")],
