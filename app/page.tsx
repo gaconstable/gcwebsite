@@ -1,11 +1,5 @@
 "use client";
-import { useState } from "react";
-const nowItems = [
-  ["Living", "New York"],
-  ["Reading", "Steve Jobs — Walter Isaacson"],
-  ["Listening", "Rebelution"],
-  ["Thinking about", "AI infrastructure, vibe coding, pickleball"],
-];
+import { useEffect, useState } from "react";
 const library = [
   {
     number: "01",
@@ -41,7 +35,7 @@ const library = [
   },
 ];
 const cardContents: Record<string, { kicker: string; items: string[] }> = {
-  Work: { kicker: "Selected work", items: ["FinDash", "AI compute market map", "Small tools and experiments"] },
+  Work: { kicker: "Selected work", items: ["FinDash.ai", "AI compute market map", "Small tools and experiments"] },
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
   Enjoying: { kicker: "Lately", items: ["Vibe coding", "Pickleball", "Long runs without headphones"] },
@@ -71,29 +65,41 @@ const musicItems = [
   },
 ];
 const bookItems = [
-  ["Steve Jobs", "Walter Isaacson"],
-  ["The Creative Act", "Rick Rubin"],
-  ["Shoe Dog", "Phil Knight"],
-  ["Zero to One", "Peter Thiel"],
-  ["Sapiens", "Yuval Noah Harari"],
-  ["Principles", "Ray Dalio"],
-  ["The Psychology of Money", "Morgan Housel"],
-  ["The Ride of a Lifetime", "Robert Iger"],
-  ["The Hard Thing About Hard Things", "Ben Horowitz"],
-  ["The Almanack of Naval Ravikant", "Eric Jorgenson"],
+  { title: "Mind Gym", author: "Gary Mack & David Casstevens", blurb: "Good performance depends on mental habits as much as physical preparation: focus, confidence, composure, and the ability to recover after mistakes. The same habits carry naturally from sports into work and everyday life." },
+  { title: "The Inner Game of Tennis", author: "W. Timothy Gallwey", blurb: "Self-judgment often interferes with abilities that are already there. Calm attention and trust in preparation can improve much more than a tennis match." },
+  { title: "The Gut: A Pocket Primer", author: "Amy Fleming", status: "Reading now", blurb: "Digestion is closely connected to energy, mood, immunity, and sleep. The book makes health feel less like a set of isolated systems and more like the result of small, connected choices." },
+  { title: "Steve Jobs", author: "Walter Isaacson", status: "Reading now", blurb: "A study in owning a product vision all the way down to its smallest detail. Jobs’s intensity was often difficult, but the book makes a strong case for care, taste, and passion in the things that get built." },
+  { title: "Norwegian Wood", author: "Haruki Murakami", blurb: "A quiet reflection on love, loneliness, memory, and the way loss follows people as they grow. Its refusal to offer easy answers is part of what makes it feel honest." },
+  { title: "Shoe Dog", author: "Phil Knight", blurb: "Building something meaningful is usually messy, uncertain, and held together by belief before it looks successful. The story is ultimately about persistence, product instinct, and staying close to the work." },
+  { title: "Open", author: "Andre Agassi", blurb: "An honest account of pressure, repetition, and the complicated relationship an athlete can have with success. Understanding the mind becomes a way to turn resistance into a life chosen more deliberately." },
+  { title: "Outliers", author: "Malcolm Gladwell", blurb: "Success looks different when viewed through timing, culture, opportunity, and accumulated practice rather than talent alone. It offers a useful lens for understanding why people and systems develop the way they do." },
+  { title: "Ready Player One", author: "Ernest Cline", blurb: "A nostalgic adventure that also asks what is lost when digital worlds become more appealing than the real one. Technology can expand a life, but it cannot fully replace one." },
+  { title: "The Defining Decade", author: "Meg Jay", blurb: "Ordinary choices in the twenties quietly shape work, relationships, and identity. Direction comes less from having everything figured out than from making commitments and allowing them to matter." },
 ];
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
   const [closing, setClosing] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<(typeof bookItems)[number] & { x: number; y: number; closing?: boolean } | null>(null);
   const closeWithRipple = () => {
     if (closing) return;
     setClosing(true);
     window.setTimeout(onClose, 650);
   };
+  const openBook = (book: (typeof bookItems)[number], event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    const card = event.currentTarget.closest(".card-reveal")?.getBoundingClientRect();
+    setSelectedBook({ ...book, x: card ? event.clientX - card.left : 300, y: card ? event.clientY - card.top : 250 });
+  };
+  const closeBook = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    if (!selectedBook || selectedBook.closing) return;
+    setSelectedBook({ ...selectedBook, closing: true });
+    window.setTimeout(() => setSelectedBook(null), 900);
+  };
   return <div className={`card-reveal reveal-${opened.name.toLowerCase()}${closing ? " is-closing" : ""}`} onClick={(event) => { event.stopPropagation(); closeWithRipple(); }} style={{ "--ripple-x": `${opened.x}px`, "--ripple-y": `${opened.y}px` } as React.CSSProperties}>
     <div className="ripple-grid" aria-hidden="true" />
     <button className="reveal-close" onClick={(event) => { event.stopPropagation(); closeWithRipple(); }} aria-label="Close card">Close ×</button>
     <div className="reveal-inner">
-      <p>{cardContents[opened.name].kicker}</p>
+      <p>{cardContents[opened.name].kicker}{opened.name === "Books" && <span className="book-hint">tap a book to explore</span>}</p>
       <h2>{opened.name}</h2>
       {opened.name === "Music" ? (
         <div className="music-stack">
@@ -110,12 +116,12 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
         <div className="book-stack" aria-label="Favorite books">
           {[bookItems.slice(0, 5), bookItems.slice(5)].map((pile, pileIndex) => (
             <div className="book-pile" key={pileIndex}>
-              {pile.map(([title, author], index) => (
-                <div className="book-spine" style={{ "--book": index } as React.CSSProperties} key={title}>
+              {pile.map((book, index) => (
+                <button className="book-spine" onClick={(event) => openBook(book, event)} style={{ "--book": index } as React.CSSProperties} key={book.title}>
                   <small>0{pileIndex * 5 + index + 1}</small>
-                  <b>{title}</b>
-                  <span>{author}</span>
-                </div>
+                  <b>{book.title}</b>
+                  <span><i>{book.author}</i>{book.status && <em>{book.status}</em>}</span>
+                </button>
               ))}
             </div>
           ))}
@@ -124,10 +130,28 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
         <div className="reveal-items">{cardContents[opened.name].items.map((item, index) => <a href="#" onClick={(event) => event.preventDefault()} key={item}><span>0{index + 1}</span><b>{item}</b><i>↗</i></a>)}</div>
       )}
     </div>
+    {selectedBook && (
+      <div className={`book-detail${selectedBook.closing ? " is-closing" : ""}`} onClick={closeBook} style={{ "--book-x": `${selectedBook.x}px`, "--book-y": `${selectedBook.y}px` } as React.CSSProperties}>
+        <div className="book-detail-meta"><b>{selectedBook.title}</b><span>{selectedBook.author}</span></div>
+        <p>{selectedBook.blurb}</p>
+      </div>
+    )}
   </div>;
 }
 export default function Home() {
   const [opened, setOpened] = useState<{ name: string; tone: string; x: number; y: number } | null>(null);
+  const listeningArtists = [musicItems[0].artist.split(" · ")[0], musicItems[1].artist];
+  const [listeningArtist, setListeningArtist] = useState(listeningArtists[0]);
+  useEffect(() => {
+    setListeningArtist(listeningArtists[Math.floor(Math.random() * listeningArtists.length)]);
+  }, []);
+  const nowItems = [
+    ["Living", cardContents.Places.items[0]],
+    ["Working", cardContents.Work.items[0]],
+    ["Listening", listeningArtist],
+    ["Reading", bookItems.filter((book) => book.status).map((book) => book.title).join(" + ")],
+    ["Thinking about", cardContents.Enjoying.items.join(", ")],
+  ];
   const openCard = (name: string, tone: string, event?: React.MouseEvent<HTMLElement>) => {
     const bounds = event?.currentTarget.getBoundingClientRect();
     setOpened({ name, tone, x: bounds ? event.clientX - bounds.left : 300, y: bounds ? event.clientY - bounds.top : 250 });
