@@ -38,7 +38,7 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Work: { kicker: "Selected work", items: ["FinDash.ai", "PwC", "Small tools and experiments"] },
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
-  Enjoying: { kicker: "Lately", items: ["Vibe coding", "Pickleball", "Long runs without headphones"] },
+  Enjoying: { kicker: "Lately", items: ["AI Infrastructure", "Pickleball", "Meal Prepping", "Vibe Coding", "Planning the weekend"] },
   Places: { kicker: "A few points on the planet", items: ["New York", "Barcelona", "Dolomites", "Oʻahu"] },
 };
 const musicItems = [
@@ -81,12 +81,7 @@ const workItems = [
   { title: "PwC", blurb: "A short note about this role will live here." },
   { title: "Small tools and experiments", blurb: "A short note about this work will live here." },
 ];
-const enjoyingItems = [
-  { title: "Vibe coding", href: "" },
-  { title: "Pickleball", href: "" },
-  { title: "Long runs without headphones", href: "" },
-  ...Array.from({ length: 7 }, () => ({ title: "Open slot", href: "" })),
-];
+const enjoyingItems = cardContents.Enjoying.items.map((title, index) => ({ title, href: "", number: index + 1 }));
 const placeItems = cardContents.Places.items.map((title) => ({ title, photos: ["", ""] }));
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
   const [closing, setClosing] = useState(false);
@@ -172,13 +167,11 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
         </div>
       ) : opened.name === "Enjoying" ? (
         <div className="enjoying-grid" aria-label="Things worth sharing">
-          {[enjoyingItems.slice(0, 5), enjoyingItems.slice(5)].map((column, columnIndex) => (
+          {[enjoyingItems.slice(0, 3), enjoyingItems.slice(3)].map((column, columnIndex) => (
             <div className="enjoying-column" key={columnIndex}>
-              {column.map((item, index) => {
-                const number = columnIndex * 5 + index + 1;
-                const isOpen = item.title === "Open slot";
-                return <a className={isOpen ? "is-open" : ""} href={item.href || "#"} target={item.href ? "_blank" : undefined} rel={item.href ? "noreferrer" : undefined} onClick={(event) => { event.stopPropagation(); if (!item.href) event.preventDefault(); }} key={number}>
-                  <span>{String(number).padStart(2, "0")}</span><b>{item.title}</b><i>{isOpen ? "" : "↗"}</i>
+              {column.map((item) => {
+                return <a href={item.href || "#"} target={item.href ? "_blank" : undefined} rel={item.href ? "noreferrer" : undefined} onClick={(event) => { event.stopPropagation(); if (!item.href) event.preventDefault(); }} key={item.number}>
+                  <span>{String(item.number).padStart(2, "0")}</span><b>{item.title}</b><i>↗</i>
                 </a>;
               })}
             </div>
@@ -222,15 +215,17 @@ export default function Home() {
   const [opened, setOpened] = useState<{ name: string; tone: string; x: number; y: number } | null>(null);
   const listeningArtists = [musicItems[0].artist.split(" · ")[0], musicItems[1].artist];
   const [listeningArtist, setListeningArtist] = useState(listeningArtists[0]);
+  const [thinkingItems, setThinkingItems] = useState(cardContents.Enjoying.items.slice(0, 3));
   useEffect(() => {
     setListeningArtist(listeningArtists[Math.floor(Math.random() * listeningArtists.length)]);
+    setThinkingItems([...cardContents.Enjoying.items].sort(() => Math.random() - 0.5).slice(0, 3));
   }, []);
   const nowItems = [
     ["Living", cardContents.Places.items[0]],
     ["Working", cardContents.Work.items[0]],
     ["Listening", listeningArtist],
     ["Reading", bookItems.filter((book) => book.status).map((book) => book.title).join(" + ")],
-    ["Thinking about", cardContents.Enjoying.items.join(", ")],
+    ["Thinking about", thinkingItems.join(", ")],
   ];
   const openCard = (name: string, tone: string, event?: React.MouseEvent<HTMLElement>) => {
     const bounds = event?.currentTarget.getBoundingClientRect();
