@@ -530,7 +530,7 @@ footer a { display: none; }
   grid-template-columns: 1fr 1fr;
   gap: 38px;
 }
-.enjoying-column { display:grid;grid-template-rows:repeat(5,1fr) }
+.enjoying-column { display:grid;grid-auto-rows:58px;align-content:start }
 .enjoying-column a {
   min-height: 58px;
   display: grid;
@@ -543,7 +543,6 @@ footer a { display: none; }
 .enjoying-column span { font-size:9px;opacity:.52 }
 .enjoying-column b { font:400 15px "Helvetica Neue",Arial;letter-spacing:-.015em }
 .enjoying-column i { font:10px "Helvetica Neue",Arial;font-style:normal;opacity:.62 }
-.enjoying-column a.is-open { opacity:.28;cursor:default }
 .book-detail {
   position: absolute;
   inset: 0;
