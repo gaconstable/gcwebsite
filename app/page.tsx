@@ -35,7 +35,7 @@ const library = [
   },
 ];
 const cardContents: Record<string, { kicker: string; items: string[] }> = {
-  Work: { kicker: "Selected work", items: ["FinDash.ai", "AI compute market map", "Small tools and experiments"] },
+  Work: { kicker: "Selected work", items: ["FinDash.ai", "PwC", "Small tools and experiments"] },
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
   Enjoying: { kicker: "Lately", items: ["Vibe coding", "Pickleball", "Long runs without headphones"] },
@@ -69,16 +69,22 @@ const bookItems = [
   { title: "The Inner Game of Tennis", author: "W. Timothy Gallwey", blurb: "Self-judgment often interferes with abilities that are already there. Calm attention and trust in preparation can improve much more than a tennis match." },
   { title: "The Gut: A Pocket Primer", author: "Amy Fleming", status: "Reading now", blurb: "Digestion is closely connected to energy, mood, immunity, and sleep. The book makes health feel less like a set of isolated systems and more like the result of small, connected choices." },
   { title: "Steve Jobs", author: "Walter Isaacson", status: "Reading now", blurb: "A study in owning a product vision all the way down to its smallest detail. Jobs’s intensity was often difficult, but the book makes a strong case for care, taste, and passion in the things that get built." },
-  { title: "Norwegian Wood", author: "Haruki Murakami", blurb: "A quiet reflection on love, loneliness, memory, and the way loss follows people as they grow. Its refusal to offer easy answers is part of what makes it feel honest." },
+  { title: "Norwegian Wood", author: "Haruki Murakami", blurb: "A quiet reflection on youth, intimacy, memory, and the uncertainty of becoming an adult. Its slow pace and emotional honesty leave space for the contradictions that shape a life." },
   { title: "Shoe Dog", author: "Phil Knight", blurb: "Building something meaningful is usually messy, uncertain, and held together by belief before it looks successful. The story is ultimately about persistence, product instinct, and staying close to the work." },
   { title: "Open", author: "Andre Agassi", blurb: "An honest account of pressure, repetition, and the complicated relationship an athlete can have with success. Understanding the mind becomes a way to turn resistance into a life chosen more deliberately." },
   { title: "Outliers", author: "Malcolm Gladwell", blurb: "Success looks different when viewed through timing, culture, opportunity, and accumulated practice rather than talent alone. It offers a useful lens for understanding why people and systems develop the way they do." },
   { title: "Ready Player One", author: "Ernest Cline", blurb: "A nostalgic adventure that also asks what is lost when digital worlds become more appealing than the real one. Technology can expand a life, but it cannot fully replace one." },
   { title: "The Defining Decade", author: "Meg Jay", blurb: "Ordinary choices in the twenties quietly shape work, relationships, and identity. Direction comes less from having everything figured out than from making commitments and allowing them to matter." },
 ];
+const workItems = [
+  { title: "FinDash.ai", blurb: "A short note about this role will live here." },
+  { title: "PwC", blurb: "A short note about this role will live here." },
+  { title: "Small tools and experiments", blurb: "A short note about this work will live here." },
+];
 function CardReveal({ opened, onClose }: { opened: { name: string; tone: string; x: number; y: number }; onClose: () => void }) {
   const [closing, setClosing] = useState(false);
   const [selectedBook, setSelectedBook] = useState<(typeof bookItems)[number] & { x: number; y: number; closing?: boolean } | null>(null);
+  const [selectedWork, setSelectedWork] = useState<(typeof workItems)[number] & { x: number; y: number; closing?: boolean } | null>(null);
   const closeWithRipple = () => {
     if (closing) return;
     setClosing(true);
@@ -94,6 +100,17 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
     if (!selectedBook || selectedBook.closing) return;
     setSelectedBook({ ...selectedBook, closing: true });
     window.setTimeout(() => setSelectedBook(null), 900);
+  };
+  const openWork = (work: (typeof workItems)[number], event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    const card = event.currentTarget.closest(".card-reveal")?.getBoundingClientRect();
+    setSelectedWork({ ...work, x: card ? event.clientX - card.left : 300, y: card ? event.clientY - card.top : 250 });
+  };
+  const closeWork = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    if (!selectedWork || selectedWork.closing) return;
+    setSelectedWork({ ...selectedWork, closing: true });
+    window.setTimeout(() => setSelectedWork(null), 900);
   };
   return <div className={`card-reveal reveal-${opened.name.toLowerCase()}${closing ? " is-closing" : ""}`} onClick={(event) => { event.stopPropagation(); closeWithRipple(); }} style={{ "--ripple-x": `${opened.x}px`, "--ripple-y": `${opened.y}px` } as React.CSSProperties}>
     <div className="ripple-grid" aria-hidden="true" />
@@ -126,6 +143,14 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
             </div>
           ))}
         </div>
+      ) : opened.name === "Work" ? (
+        <div className="reveal-items work-items">
+          {workItems.map((item, index) => (
+            <button onClick={(event) => openWork(item, event)} key={item.title}>
+              <span>0{index + 1}</span><b>{item.title}</b><i>↗</i>
+            </button>
+          ))}
+        </div>
       ) : (
         <div className="reveal-items">{cardContents[opened.name].items.map((item, index) => <a href="#" onClick={(event) => event.preventDefault()} key={item}><span>0{index + 1}</span><b>{item}</b><i>↗</i></a>)}</div>
       )}
@@ -134,6 +159,12 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
       <div className={`book-detail${selectedBook.closing ? " is-closing" : ""}`} onClick={closeBook} style={{ "--book-x": `${selectedBook.x}px`, "--book-y": `${selectedBook.y}px` } as React.CSSProperties}>
         <div className="book-detail-meta"><b>{selectedBook.title}</b><span>{selectedBook.author}</span></div>
         <p>{selectedBook.blurb}</p>
+      </div>
+    )}
+    {selectedWork && (
+      <div className={`book-detail work-detail${selectedWork.closing ? " is-closing" : ""}`} onClick={closeWork} style={{ "--book-x": `${selectedWork.x}px`, "--book-y": `${selectedWork.y}px` } as React.CSSProperties}>
+        <div className="book-detail-meta"><b>{selectedWork.title}</b></div>
+        <p>{selectedWork.blurb}</p>
       </div>
     )}
   </div>;
