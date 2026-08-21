@@ -131,11 +131,12 @@ a {
 }
 .shelf {
   position: relative;
+  width: min(980px, calc(100% - 120px));
 }
 .library-panel {
-  height: 72vh;
-  min-height: 530px;
-  max-height: 720px;
+  height: 82vh;
+  min-height: 650px;
+  max-height: 860px;
   border-radius: 24px;
   padding: 42px 48px;
   position: sticky;
@@ -492,9 +493,12 @@ footer a { display: none; }
   .library-intro {
     margin-bottom: 55px;
   }
+  .shelf {
+    width: calc(100% - 34px);
+  }
   .library-panel {
-    height: 74vh;
-    min-height: 540px;
+    height: 80vh;
+    min-height: 580px;
     padding: 26px 22px;
   }
   .panel-copy {
