@@ -26,7 +26,7 @@ const library = [
   {
     number: "03",
     type: "Books",
-    title: "Books and ideas worth another look.",
+    title: "Some of my favorites",
     detail: "A living shelf.",
     mark: "Aa",
     tone: "books",
