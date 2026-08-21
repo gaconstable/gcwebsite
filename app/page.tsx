@@ -350,7 +350,7 @@ export default function Home() {
       <section className="contact shell" id="contact">
         <h2>Elsewhere</h2>
         <div className="accounts">
-          <a href="mailto:hello@example.com">
+          <a href="mailto:gaconstable1@gmail.com">
             <span>Email</span>
             <b>Write me a note</b>
             <i>↗</i>
