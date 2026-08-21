@@ -28,7 +28,7 @@ const library = [
   {
     number: "04",
     type: "Enjoying",
-    title: "Articles, videos, podcasts, projects worth sharing",
+    title: "Topics, articles, videos, podcasts, projects worth sharing",
     detail: "Things I’m into right now.",
     mark: "ϟ",
     tone: "enjoying",
