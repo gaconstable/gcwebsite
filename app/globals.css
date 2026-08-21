@@ -458,6 +458,7 @@ footer a { display: none; }
 .reveal-inner { width:100%;margin:1.5vh auto 0;position:relative;z-index:1;animation:reveal-copy .5s .38s both }
 @keyframes reveal-copy { from { opacity:0;transform:translateY(20px) } }
 .reveal-inner>p { font-size:10px;text-transform:uppercase;letter-spacing:.18em;margin:0 0 30px;opacity:.65 }
+.book-hint { display:block;margin-top:8px;text-transform:none;letter-spacing:0;font-size:10px;opacity:.72 }
 .reveal-inner h2 { font:400 clamp(58px,8vw,112px)/.8 "Helvetica Neue",Arial;letter-spacing:-.075em;margin:0 0 55px }
 .reveal-items { margin-left:35% }
 .reveal-items a { display:grid;grid-template-columns:65px 1fr auto;align-items:center;padding:24px 0;border-top:1px solid currentColor }
@@ -485,49 +486,81 @@ footer a { display: none; }
 .music-stack a:hover i { opacity:1 }
 .book-stack {
   width: min(760px, 82%);
-  margin-left: auto;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
-  align-items: end;
-  position: relative;
-}
-.book-stack::before {
-  content: "";
-  position: absolute;
-  inset: -12px;
-  pointer-events: none;
-  opacity: .16;
-  background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px);
-  background-size: 16px 16px;
-  mask-image: linear-gradient(to bottom, transparent, #000 28%, #000);
+  gap: 38px;
 }
 .book-pile {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 0;
 }
 .book-spine {
-  width: 92%;
-  min-height: 48px;
+  width: 100%;
+  min-height: 58px;
   display: grid;
-  grid-template-columns: 28px 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
   align-items: center;
-  padding: 5px 12px;
-  border: 1px solid rgba(40, 35, 21, .58);
-  border-radius: 1px;
-  background: rgba(250, 240, 197, .16);
-  box-shadow: 3px 3px 0 rgba(40, 35, 21, .2);
-  position: relative;
+  padding: 10px 2px;
+  border: 0;
+  border-top: 1px solid rgba(40, 35, 21, .55);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
-.book-spine::after { content:"";position:absolute;right:7px;top:7px;width:4px;height:4px;background:currentColor;opacity:.45 }
-.book-spine:nth-child(2n) { width:100%;transform:translateX(-2%) }
-.book-spine:nth-child(3n) { width:86%;transform:translateX(5%) }
-.book-spine:nth-child(4n) { width:95%;transform:translateX(2%) }
-.book-spine small { grid-row:1 / 3;font:9px ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.5 }
-.book-spine b { align-self:end;font:500 12px "Helvetica Neue",Arial;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
-.book-spine span { align-self:start;font:9px ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.62;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+.book-spine:last-child { border-bottom: 1px solid rgba(40, 35, 21, .55) }
+.book-spine small { display:none }
+.book-spine b { align-self:end;font:400 15px "Helvetica Neue",Arial;letter-spacing:-.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+.book-spine span { align-self:start;display:flex;justify-content:space-between;gap:8px;font:10px "Helvetica Neue",Arial;opacity:.62;white-space:nowrap;overflow:hidden }
+.book-spine span i { overflow:hidden;text-overflow:ellipsis;font-style:normal }
+.book-spine span em { flex:none;font-style:normal;text-transform:uppercase;letter-spacing:.08em;font-size:8px;opacity:.72 }
+.book-detail {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 40px;
+  background: inherit;
+  color: inherit;
+  clip-path: circle(0 at var(--book-x) var(--book-y));
+  animation: book-ripple-in 1s cubic-bezier(.65,0,.15,1) forwards;
+  cursor: pointer;
+}
+@keyframes book-ripple-in { to { clip-path:circle(150vmax at var(--book-x) var(--book-y)) } }
+.book-detail.is-closing {
+  clip-path: circle(150vmax at var(--book-x) var(--book-y));
+  animation: book-ripple-out .9s cubic-bezier(.65,0,.15,1) forwards;
+  pointer-events: none;
+}
+@keyframes book-ripple-out { to { clip-path:circle(0 at var(--book-x) var(--book-y)) } }
+.book-detail-meta {
+  position: absolute;
+  top: 38px;
+  left: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 10px;
+}
+.book-detail-meta b { font-weight:500 }
+.book-detail-meta span { opacity:.58 }
+.book-detail>p {
+  width: min(680px, 78%);
+  margin: 0;
+  font: 400 clamp(25px, 3.2vw, 46px)/1.18 "Helvetica Neue",Arial;
+  letter-spacing: -.035em;
+  text-align: center;
+}
+.book-detail.is-closing>p,
+.book-detail.is-closing .book-detail-meta { animation:reveal-copy-close .24s ease forwards }
 @media (max-width: 800px) {
   .shell {
     width: calc(100% - 34px);
@@ -625,12 +658,15 @@ footer a { display: none; }
   .music-stack img { width:54px;height:54px }
   .music-stack i { display:none }
   .music-stack b { font-size:17px }
-  .book-stack { width:100%;margin-left:0;gap:12px }
-  .book-spine { min-height:44px;padding:4px 8px;grid-template-columns:22px 1fr }
+  .book-stack { width:100%;margin:0 auto;gap:14px }
+  .book-spine { min-height:48px;padding:7px 9px;grid-template-columns:1fr }
   .book-spine b { font-size:10px }
   .book-spine span { font-size:8px }
   .reveal-books .reveal-inner>p { margin-bottom:18px }
   .reveal-books .reveal-inner h2 { margin-bottom:30px }
+  .book-detail { padding:22px }
+  .book-detail-meta { top:22px;left:22px }
+  .book-detail>p { width:90%;font-size:25px }
 }
 @media (max-width: 480px) {
   .now-item {
