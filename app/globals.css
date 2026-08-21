@@ -461,8 +461,10 @@ footer a { display: none; }
 .book-hint { display:block;margin-top:8px;text-transform:none;letter-spacing:0;font-size:10px;opacity:.72 }
 .reveal-inner h2 { font:400 clamp(58px,8vw,112px)/.8 "Helvetica Neue",Arial;letter-spacing:-.075em;margin:0 0 55px }
 .reveal-items { margin-left:35% }
-.reveal-items a { display:grid;grid-template-columns:65px 1fr auto;align-items:center;padding:24px 0;border-top:1px solid currentColor }
-.reveal-items a:last-child { border-bottom:1px solid currentColor }
+.reveal-items a,
+.reveal-items button { display:grid;grid-template-columns:65px 1fr auto;align-items:center;width:100%;padding:24px 0;border:0;border-top:1px solid currentColor;background:transparent;color:inherit;text-align:left;cursor:pointer }
+.reveal-items a:last-child,
+.reveal-items button:last-child { border-bottom:1px solid currentColor }
 .reveal-items span { font-size:9px;opacity:.55 }.reveal-items b { font:400 21px "Helvetica Neue",Arial }.reveal-items i { font-style:normal }
 .music-stack {
   width: min(680px, 72%);
