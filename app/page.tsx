@@ -278,13 +278,11 @@ export default function Home() {
                 <span>{item.type}</span>
                 <span>{item.number}</span>
               </div>
-              <div className={`panel-mark${item.type === "Books" ? " book-stack-mark" : ""}`}>
+              <div className={`panel-mark${item.type === "Books" ? " book-icon-mark" : ""}`}>
                 {item.type === "Books" ? (
-                  <svg viewBox="0 0 64 64" role="img" aria-label="Stacked books">
-                    <path d="M10 12h40a4 4 0 0 1 4 4v10H14a4 4 0 0 1-4-4z" />
-                    <path d="M54 26H16a5 5 0 0 0 0 10h38z" />
-                    <path d="M14 36h36a4 4 0 0 1 4 4v12H10V40a4 4 0 0 1 4-4z" />
-                    <path d="M20 43h24" />
+                  <svg viewBox="0 0 64 64" role="img" aria-label="Open book">
+                    <path d="M7 13c9-2 17 0 25 6v34c-8-6-16-8-25-6z" />
+                    <path d="M57 13c-9-2-17 0-25 6v34c8-6 16-8 25-6z" />
                   </svg>
                 ) : item.mark}
               </div>
