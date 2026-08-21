@@ -336,7 +336,7 @@ export default function Home() {
             </div>
             <div className="panel-mark earth-mark" aria-label="Earth">◎</div>
             <div className="panel-copy">
-              <h3>Some great sights</h3>
+              <h3>Great sights from recent travels</h3>
             </div>
             {opened?.name === "Places" && <CardReveal opened={opened} onClose={() => setOpened(null)} />}
           </article>
