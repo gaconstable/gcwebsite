@@ -4,7 +4,7 @@ const library = [
   {
     number: "01",
     type: "Work",
-    title: "Where I've worked and my goals",
+    title: "What I've done and my goals",
     detail: "Selected work and things in progress.",
     mark: "◇\n◇",
     tone: "work",
