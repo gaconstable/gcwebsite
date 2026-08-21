@@ -204,6 +204,16 @@ a {
   margin-bottom: 48px;
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+.book-stack-mark svg {
+  display: block;
+  width: clamp(110px, 15vw, 205px);
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .library-panel:hover .panel-mark {
   transform: scale(1.07) rotate(-3deg);
 }
