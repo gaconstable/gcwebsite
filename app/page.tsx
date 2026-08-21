@@ -142,17 +142,22 @@ export default function Home() {
             <b>Write me a note</b>
             <i>↗</i>
           </a>
-          <a href="https://www.instagram.com" target="_blank">
+          <a href="https://www.linkedin.com/in/george-a-constable/" target="_blank" rel="noreferrer">
+            <span>LinkedIn</span>
+            <b>George A. Constable</b>
+            <i>↗</i>
+          </a>
+          <a href="https://www.instagram.com/gaconstable/" target="_blank" rel="noreferrer">
             <span>Instagram</span>
             <b>@georgeconstable</b>
             <i>↗</i>
           </a>
-          <a href="https://www.strava.com" target="_blank">
+          <a href="https://www.strava.com/athletes/georgeconstable" target="_blank" rel="noreferrer">
             <span>Strava</span>
             <b>Runs & rides</b>
             <i>↗</i>
           </a>
-          <a href="https://open.spotify.com" target="_blank">
+          <a href="https://open.spotify.com/user/georgec12?si=63ba3d4117414d5b" target="_blank" rel="noreferrer">
             <span>Spotify</span>
             <b>What I’m listening to</b>
             <i>↗</i>
