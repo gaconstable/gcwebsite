@@ -89,7 +89,7 @@ const otherProjects = [
   },
   {
     title: "Budgeting Template",
-    blurb: "A transaction-driven budgeting spreadsheet that automatically compares projected and actual income, savings, and spending across detailed categories, with a clear summary of where money is going.",
+    blurb: "A budgeting template I built to help my friends manage their finances after graduation. It’s optimized for new grads, with detailed spending and saving categories, plus projected-versus-actual tracking to show how a budget compares with real spending.",
     href: "https://docs.google.com/spreadsheets/d/1qzBQ3mTElqa-scdleUNRx-fRyE1ICoF0Kjc_HeEz614/edit?gid=0#gid=0",
   },
 ];
