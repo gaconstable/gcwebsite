@@ -476,6 +476,10 @@ footer a { display: none; }
 .reveal-items a:last-child,
 .reveal-items button:last-child { border-bottom:1px solid currentColor }
 .reveal-items span { font-size:9px;opacity:.55 }.reveal-items b { font:400 21px "Helvetica Neue",Arial }.reveal-items i { font-style:normal }
+.other-project-items { margin: 48px 0 0; }
+.other-project-items .project-copy { display:grid;gap:10px;opacity:1; }
+.other-project-items .project-copy b { font:400 21px "Helvetica Neue",Arial; }
+.other-project-items .project-copy small { max-width:680px;font:400 14px/1.5 "Helvetica Neue",Arial;opacity:.72; }
 .music-stack {
   width: min(680px, 72%);
   margin-left: auto;
