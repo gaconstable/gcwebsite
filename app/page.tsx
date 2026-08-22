@@ -28,7 +28,7 @@ const library = [
   {
     number: "04",
     type: "Enjoying",
-    title: "Topics, articles, videos, podcasts, projects worth sharing",
+    title: "What I’m thinking about and content worth sharing",
     detail: "Things I’m into right now.",
     mark: "ϟ",
     tone: "enjoying",
@@ -38,8 +38,8 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Work: { kicker: "Selected work", items: ["FinDash.ai", "PwC", "Other projects"] },
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
-  Enjoying: { kicker: "Lately", items: ["AI Infrastructure", "Pickleball", "Meal Prepping", "Vibe Coding", "Planning the weekend"] },
-  Places: { kicker: "A few points on the planet", items: ["Oʻahu", "Dolomites", "Lucerne"] },
+  Enjoying: { kicker: "Lately", items: ["AI infrastructure", "Pickleball", "TJs meal prepping", "Vibe coding", "Planning NYC weekends"] },
+  Places: { kicker: "Postcards from recent travels", items: ["Oʻahu", "Dolomites", "Lucerne"] },
 };
 const musicItems = [
   {
@@ -79,7 +79,14 @@ const bookItems = [
 const workItems = [
   { title: "FinDash.ai", blurb: "Helping shape FinDash.ai across product and web, with a focus on improving the user experience and using coding tools to ship updates quickly." },
   { title: "PwC", blurb: "Interned in PwC’s Financial Crimes Unit within Risk Consulting, supporting risk assessments across KYC, AML, fraud, sanctions, and related areas for large public companies." },
-  { title: "Other projects", blurb: "A short note about this work will live here." },
+  { title: "Other projects", blurb: "" },
+];
+const otherProjects = [
+  {
+    title: "AI in Finance Task Chain Analysis",
+    blurb: "For my ECON4444 final project at UVA, I built an interactive dashboard analyzing how AI could automate or augment individual tasks across jobs in the financial services industry.",
+    href: "https://aiinfinancetaskchainanalysis.vercel.app/?_vercel_share=vjdjyyHOBqPEcjnBCQ0QgahHdJXn1nLO",
+  },
 ];
 const enjoyingItems = cardContents.Enjoying.items.map((title, index) => ({ title, href: "", number: index + 1 }));
 const placeItems = [
@@ -156,7 +163,12 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
     <div className="ripple-grid" aria-hidden="true" />
     <button className="reveal-close" onClick={(event) => { event.stopPropagation(); closeWithRipple(); }} aria-label="Close card">Close ×</button>
     <div className="reveal-inner">
-      <p>{cardContents[opened.name].kicker}{opened.name === "Books" && <span className="book-hint">tap a book to explore</span>}</p>
+      <p>
+        {cardContents[opened.name].kicker}
+        {opened.name === "Books" && <span className="book-hint">tap a book to explore</span>}
+        {opened.name === "Work" && <span className="book-hint">tap an entry to explore</span>}
+        {opened.name === "Places" && <span className="book-hint">tap a place to explore</span>}
+      </p>
       <h2>{opened.name}</h2>
       {opened.name === "Music" ? (
         <div className="music-stack">
@@ -223,18 +235,31 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
     {selectedBook && (
       <div className={`book-detail${selectedBook.closing ? " is-closing" : ""}`} onClick={closeBook} style={{ "--book-x": `${selectedBook.x}px`, "--book-y": `${selectedBook.y}px` } as React.CSSProperties}>
         <div className="book-detail-meta"><b>{selectedBook.title}</b><span>{selectedBook.author}</span></div>
+        <button className="reveal-close" onClick={closeBook} aria-label="Close book details">Close ×</button>
         <p>{selectedBook.blurb}</p>
       </div>
     )}
     {selectedWork && (
       <div className={`book-detail work-detail${selectedWork.closing ? " is-closing" : ""}`} onClick={closeWork} style={{ "--book-x": `${selectedWork.x}px`, "--book-y": `${selectedWork.y}px` } as React.CSSProperties}>
         <div className="book-detail-meta"><b>{selectedWork.title}</b></div>
-        <p>{selectedWork.blurb}</p>
+        <button className="reveal-close" onClick={closeWork} aria-label="Close work details">Close ×</button>
+        {selectedWork.title === "Other projects" ? (
+          <div className="reveal-items other-project-items">
+            {otherProjects.map((project, index) => (
+              <a href={project.href} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()} key={project.title}>
+                <span>0{index + 1}</span>
+                <span className="project-copy"><b>{project.title}</b><small>{project.blurb}</small></span>
+                <i>↗</i>
+              </a>
+            ))}
+          </div>
+        ) : <p>{selectedWork.blurb}</p>}
       </div>
     )}
     {selectedPlace && (
       <div className={`book-detail place-detail${selectedPlace.closing ? " is-closing" : ""}`} onClick={closePlace} style={{ "--book-x": `${selectedPlace.x}px`, "--book-y": `${selectedPlace.y}px` } as React.CSSProperties}>
         <div className="book-detail-meta"><b>{selectedPlace.title}</b></div>
+        <button className="reveal-close" onClick={closePlace} aria-label="Close place details">Close ×</button>
         <div className="place-photo-grid" data-count={selectedPlace.photos.length}>
           {selectedPlace.photos.map((photo, index) => photo ? <img src={photo} alt={`${selectedPlace.title} ${index + 1}`} key={index} /> : <div className="photo-slot" key={index}><span>Photo {String(index + 1).padStart(2, "0")}</span></div>)}
         </div>
@@ -351,7 +376,7 @@ export default function Home() {
         <h2>Elsewhere</h2>
         <div className="accounts">
           <a href="mailto:gaconstable1@gmail.com">
-            <span>Email</span>
+            <span>gaconstable1@gmail.com</span>
             <b>Write me a note</b>
             <i>↗</i>
           </a>
