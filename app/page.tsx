@@ -87,6 +87,11 @@ const otherProjects = [
     blurb: "For my ECON4444 final project at UVA, I built an interactive dashboard analyzing how AI could automate or augment individual tasks across jobs in the financial services industry.",
     href: "https://aiinfinancetaskchainanalysis.vercel.app/?_vercel_share=vjdjyyHOBqPEcjnBCQ0QgahHdJXn1nLO",
   },
+  {
+    title: "Budgeting Template",
+    blurb: "A transaction-driven budgeting spreadsheet that automatically compares projected and actual income, savings, and spending across detailed categories, with a clear summary of where money is going.",
+    href: "https://docs.google.com/spreadsheets/d/1qzBQ3mTElqa-scdleUNRx-fRyE1ICoF0Kjc_HeEz614/edit?gid=0#gid=0",
+  },
 ];
 const enjoyingItems = cardContents.Enjoying.items.map((title, index) => ({ title, href: "", number: index + 1 }));
 const placeItems = [
