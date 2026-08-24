@@ -38,7 +38,7 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Work: { kicker: "Selected work", items: ["FinDash.ai", "PwC", "Other projects"] },
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
-  Enjoying: { kicker: "Lately", items: ["AI infrastructure", "Pickleball", "TJs meal prepping", "Vibe coding", "Planning NYC weekends"] },
+  Enjoying: { kicker: "Lately", items: ["AI infrastructure", "Pickleball", "TJs meal prepping", "Vibe coding", "Planning NYC weekends", "All-In Podcast"] },
   Places: { kicker: "Postcards from recent travels", items: ["Oʻahu", "Dolomites", "Lucerne"] },
 };
 const musicItems = [
@@ -80,6 +80,7 @@ const workItems = [
   { title: "FinDash.ai", blurb: "Helping shape FinDash.ai across product and web, with a focus on improving the user experience and using coding tools to ship updates quickly." },
   { title: "PwC", blurb: "Interned in PwC’s Financial Crimes Unit within Risk Consulting, supporting risk assessments across KYC, AML, fraud, sanctions, and related areas for large public companies." },
   { title: "Other projects", blurb: "" },
+  { title: "Goals", blurb: "To lead and build with teams at the frontier of technology, where I can learn quickly, own meaningful problems, and work across strategy, operations, and product." },
 ];
 const otherProjects = [
   {
@@ -92,8 +93,17 @@ const otherProjects = [
     blurb: "A budgeting template I built to help my friends manage their finances after graduation. It’s optimized for new grads, with detailed spending and saving categories, plus projected-versus-actual tracking to show how a budget compares with real spending.",
     href: "https://docs.google.com/spreadsheets/d/1qzBQ3mTElqa-scdleUNRx-fRyE1ICoF0Kjc_HeEz614/edit?gid=0#gid=0",
   },
+  {
+    title: "Consulting Recruiting Overview",
+    blurb: "After going through consulting recruiting myself, I created this guide for younger students at UVA to document and share what I learned. It covers the consulting landscape, networking, applications, behavioral interviews, case preparation, and navigating offers.",
+    href: "https://docs.google.com/document/d/1x2qnXRY2cguZmZrID71rZUyqNHIuP_Pdw3ZCu4fbujw/edit?tab=t.0",
+  },
 ];
-const enjoyingItems = cardContents.Enjoying.items.map((title, index) => ({ title, href: "", number: index + 1 }));
+const enjoyingItems = cardContents.Enjoying.items.map((title, index) => ({
+  title,
+  href: title === "All-In Podcast" ? "https://open.spotify.com/show/2IqXAVFR4e0Bmyjsdc8QzF?si=nGqeCXxhRN-H2eGZ2kQvDQ&utm_source=sms" : "",
+  number: index + 1,
+}));
 const placeItems = [
   {
     title: "Oʻahu",
@@ -258,6 +268,11 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
               </a>
             ))}
           </div>
+        ) : selectedWork.title === "Goals" ? (
+          <div className="goal-detail-copy">
+            <p>{selectedWork.blurb}</p>
+            <p>If my goals align with your goals, please see my <a href="#contact" onClick={(event) => { event.stopPropagation(); setSelectedWork(null); onClose(); }}>contact section</a>.</p>
+          </div>
         ) : <p>{selectedWork.blurb}</p>}
       </div>
     )}
@@ -393,6 +408,11 @@ export default function Home() {
           <a href="https://www.instagram.com/gaconstable/" target="_blank" rel="noreferrer">
             <span>Instagram</span>
             <b>@georgeconstable</b>
+            <i>↗</i>
+          </a>
+          <a href="https://x.com/gconstable0?s=11&t=dZz6VctyIwJAFOgp4k9UHQ" target="_blank" rel="noreferrer">
+            <span>X</span>
+            <b>@gconstable0</b>
             <i>↗</i>
           </a>
           <a href="https://www.strava.com/athletes/georgeconstable" target="_blank" rel="noreferrer">
