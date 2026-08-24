@@ -13,8 +13,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "George Constable — A corner of the internet",
+  title: "George Constable HQ",
   description: "Things George is making, reading, listening to, and seeing along the way.",
+  openGraph: {
+    title: "George Constable HQ",
+    description: "Things George is making, reading, listening to, and seeing along the way.",
+  },
+  twitter: {
+    card: "summary",
+    title: "George Constable HQ",
+    description: "Things George is making, reading, listening to, and seeing along the way.",
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
