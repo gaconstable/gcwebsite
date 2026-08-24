@@ -604,8 +604,18 @@ footer a { display: none; }
   letter-spacing: -.035em;
   text-align: center;
 }
+.goal-detail-copy {
+  width: min(680px, 78%);
+  display: grid;
+  gap: 28px;
+  text-align: center;
+}
+.goal-detail-copy p { margin:0;font:400 clamp(25px,3.2vw,46px)/1.18 "Helvetica Neue",Arial;letter-spacing:-.035em }
+.goal-detail-copy p:last-child { font-size:clamp(16px,1.8vw,24px);letter-spacing:-.02em }
+.goal-detail-copy a { border-bottom:1px solid currentColor }
 .book-detail.is-closing>p,
-.book-detail.is-closing .book-detail-meta { animation:reveal-copy-close .24s ease forwards }
+.book-detail.is-closing .book-detail-meta,
+.book-detail.is-closing .goal-detail-copy { animation:reveal-copy-close .24s ease forwards }
 .place-photo-grid {
   width: min(760px, 82%);
   display: grid;
