@@ -302,6 +302,7 @@ export default function Home() {
     ["Listening", listeningArtist],
     ["Reading", bookItems.filter((book) => book.status).map((book) => book.title).join(" + ")],
     ["Enjoying", thinkingItems.join(", ")],
+    ["", "UVA Graduate"],
   ];
   const openCard = (name: string, tone: string, event?: React.MouseEvent<HTMLElement>) => {
     const bounds = event?.currentTarget.getBoundingClientRect();
@@ -328,8 +329,8 @@ export default function Home() {
         <p className="eyebrow">Right now</p>
         <div className="now-list">
           {nowItems.map(([label, value]) => (
-            <div className="now-item" key={label}>
-              <p><span>{label}:</span> {value}</p>
+            <div className="now-item" key={`${label}-${value}`}>
+              <p>{label ? <><span>{label}:</span> {value}</> : value}</p>
             </div>
           ))}
         </div>
