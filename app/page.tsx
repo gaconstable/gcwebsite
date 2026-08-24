@@ -39,7 +39,7 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
   Enjoying: { kicker: "Lately", items: ["AI infrastructure", "Pickleball", "TJs meal prepping", "Vibe coding", "Planning NYC weekends", "All-In Podcast"] },
-  Places: { kicker: "Postcards from recent travels", items: ["Oʻahu", "Dolomites", "Lucerne"] },
+  Places: { kicker: "Highlights", items: ["Oʻahu", "Dolomites", "Lucerne"] },
 };
 const musicItems = [
   {
