@@ -38,7 +38,7 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Work: { kicker: "Selected work", items: ["FinDash.ai", "PwC", "Other projects"] },
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
-  Enjoying: { kicker: "Lately", items: ["AI infrastructure", "Pickleball", "TJs meal prepping", "Vibe coding", "Planning NYC weekends", "All-In Podcast"] },
+  Enjoying: { kicker: "Lately", items: ["AI infrastructure", "Pickleball", "TJs meal prepping", "Vibe coding", "Planning NYC weekends", "All-In Podcast", "GTM strategizing", "Lamar Jackson"] },
   Places: { kicker: "Highlights", items: ["Oʻahu", "Dolomites", "Lucerne"] },
 };
 const musicItems = [
@@ -51,10 +51,10 @@ const musicItems = [
   },
   {
     type: "Song",
-    title: "Cleaning Windows",
-    artist: "Van Morrison",
-    href: "https://open.spotify.com/track/1Y0fLiphJPvf7Rs56aAL3O",
-    image: "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02d801a110ad2782a57af68092",
+    title: "The Bottom of It",
+    artist: "Fruit Bats",
+    href: "https://open.spotify.com/track/4ZiQw59WaP3yPGuWuYd6rQ?si=e30fe9cd36364c5a",
+    image: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e025c08ee13f01bccf9878c6ee7",
   },
   {
     type: "Playlist",
@@ -67,8 +67,8 @@ const musicItems = [
 const bookItems = [
   { title: "Mind Gym", author: "Gary Mack & David Casstevens", blurb: "Good performance depends on mental habits as much as physical preparation: focus, confidence, composure, and the ability to recover after mistakes. The same habits carry naturally from sports into work and everyday life." },
   { title: "The Inner Game of Tennis", author: "W. Timothy Gallwey", blurb: "Self-judgment often interferes with abilities that are already there. Calm attention and trust in preparation can improve much more than a tennis match." },
-  { title: "The Gut: A Pocket Primer", author: "Amy Fleming", status: "Reading now", blurb: "Digestion is closely connected to energy, mood, immunity, and sleep. The book makes health feel less like a set of isolated systems and more like the result of small, connected choices." },
-  { title: "Steve Jobs", author: "Walter Isaacson", status: "Reading now", blurb: "A study in owning a product vision all the way down to its smallest detail. Jobs’s intensity was often difficult, but the book makes a strong case for care, taste, and passion in the things that get built." },
+  { title: "Into Thin Air", author: "Jon Krakauer", status: "Reading now", blurb: "A firsthand account of ambition, judgment, and the limits of control on Everest. The story makes clear how commitment to a goal can cloud the decision to turn back, and how much depends on the people making the climb together." },
+  { title: "Steve Jobs", author: "Walter Isaacson", blurb: "A study in owning a product vision all the way down to its smallest detail. Jobs’s intensity was often difficult, but the book makes a strong case for care, taste, and passion in the things that get built." },
   { title: "Norwegian Wood", author: "Haruki Murakami", blurb: "A quiet reflection on youth, intimacy, memory, and the uncertainty of becoming an adult. Its slow pace and emotional honesty leave space for the contradictions that shape a life." },
   { title: "Shoe Dog", author: "Phil Knight", blurb: "Building something meaningful is usually messy, uncertain, and held together by belief before it looks successful. The story is ultimately about persistence, product instinct, and staying close to the work." },
   { title: "Open", author: "Andre Agassi", blurb: "An honest account of pressure, repetition, and the complicated relationship an athlete can have with success. Understanding the mind becomes a way to turn resistance into a life chosen more deliberately." },
@@ -220,7 +220,7 @@ function CardReveal({ opened, onClose }: { opened: { name: string; tone: string;
         </div>
       ) : opened.name === "Enjoying" ? (
         <div className="enjoying-grid" aria-label="Things worth sharing">
-          {[enjoyingItems.slice(0, 3), enjoyingItems.slice(3)].map((column, columnIndex) => (
+          {[enjoyingItems.slice(0, 4), enjoyingItems.slice(4)].map((column, columnIndex) => (
             <div className="enjoying-column" key={columnIndex}>
               {column.map((item) => {
                 return <a href={item.href || "#"} target={item.href ? "_blank" : undefined} rel={item.href ? "noreferrer" : undefined} onClick={(event) => { event.stopPropagation(); if (!item.href) event.preventDefault(); }} key={item.number}>
