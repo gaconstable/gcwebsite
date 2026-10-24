@@ -38,23 +38,23 @@ const cardContents: Record<string, { kicker: string; items: string[] }> = {
   Work: { kicker: "Selected work", items: ["FinDash.ai", "PwC", "Other projects"] },
   Music: { kicker: "On rotation", items: ["Charm — Clairo", "Rebelution", "Late summer, slowly"] },
   Books: { kicker: "On the shelf", items: ["Steve Jobs — Walter Isaacson", "The Creative Act", "Books I keep returning to"] },
-  Enjoying: { kicker: "Lately", items: ["AI infrastructure", "Pickleball", "TJs meal prepping", "Vibe coding", "Planning NYC weekends", "All-In Podcast", "GTM strategizing", "Lamar Jackson"] },
+  Enjoying: { kicker: "Lately", items: ["AI infrastructure", "Pickleball", "TJs meal prepping", "Vibe coding", "Planning NYC weekends", "All-In Podcast", "Squash in NYC", "Lamar Jackson"] },
   Places: { kicker: "Highlights", items: ["Oʻahu", "Dolomites", "Lucerne"] },
 };
 const musicItems = [
   {
     type: "Album",
-    title: "Dire Straits",
-    artist: "Dire Straits · 1978",
-    href: "https://open.spotify.com/album/4dKdxly4ji1vfl7sEYuqBe",
-    image: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0205b07080bdc2dd0e2cf6f008",
+    title: "August And Everything After",
+    artist: "Counting Crows",
+    href: "https://open.spotify.com/album/4nKfZbCALT9H9LfedtDwnZ?si=ejqt4S3TRam5AbCDzjDrkw",
+    image: "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e027e09670f90cd47b3fb9a23e0",
   },
   {
     type: "Song",
-    title: "The Bottom of It",
-    artist: "Fruit Bats",
-    href: "https://open.spotify.com/track/4ZiQw59WaP3yPGuWuYd6rQ?si=e30fe9cd36364c5a",
-    image: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e025c08ee13f01bccf9878c6ee7",
+    title: "Wildflowers",
+    artist: "Tom Petty",
+    href: "https://open.spotify.com/album/3ZGUBwDiY5HPOcWv4SBPQg?si=AoSZfelzQ-Op6UXXabQIKw",
+    image: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0241be6d9cf0ec0067d095a072",
   },
   {
     type: "Playlist",
@@ -77,7 +77,8 @@ const bookItems = [
   { title: "The Defining Decade", author: "Meg Jay", blurb: "Ordinary choices in the twenties quietly shape work, relationships, and identity. Direction comes less from having everything figured out than from making commitments and allowing them to matter." },
 ];
 const workItems = [
-  { title: "FinDash.ai", blurb: "Helping shape FinDash.ai across product and web, with a focus on improving the user experience and using coding tools to ship updates quickly." },
+  { title: "Laurence", blurb: "" },
+  { title: "FinDash.ai", blurb: "Helping shape FinDash.ai across product and growth, with a focus on improving the user experience, strategizing how we reach customers, and using coding tools to ship updates quickly." },
   { title: "PwC", blurb: "Interned in PwC’s Financial Crimes Unit within Risk Consulting, supporting risk assessments across KYC, AML, fraud, sanctions, and related areas for large public companies." },
   { title: "Other projects", blurb: "" },
   { title: "Goals", blurb: "To lead and build with teams at the frontier of technology, where I can learn quickly, own meaningful problems, and work across strategy, operations, and product." },
